@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Florida Moto Team</title>
+    <style>
+        /* --- CONFIGURACIÓN GENERAL Y CORRECCIONES --- */
+        * {
+            box-sizing: border-box; 
+        }
+        
+        html {
+            scroll-behavior: smooth; 
+            scroll-padding-top: 80px; 
+        }
+
+        body { 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #121212; 
+            color: #ffffff; 
+            line-height: 1.6;
+        }
+        
+        /* --- CABECERA Y LOGOS --- */
+        header { 
+            background-color: #ffffff; 
+            /* TRUCO: Reducimos el relleno superior e inferior de 15px a 5px para ganar espacio */
+            padding: 5px 30px; 
+            border-bottom: 4px solid #cc141c; 
+            display: grid; 
+            grid-template-columns: 1fr auto 1fr; 
+            align-items: center; 
+        }
+        
+        .logo-florida {
+            height: auto;
+            max-height: 70px; /* Creció 10px */
+            justify-self: start; 
+        }
+        
+        .logo-fmt {
+            height: auto;
+            max-height: 130px; /* Creció 20px, ocupando el espacio que le quitamos al relleno */
+            justify-self: center; 
+        }
+
+        .logo-champion {
+            height: auto;
+            max-height: 95px; /* Creció 25px sin alterar la barra blanca */
+            justify-self: end; 
+        }
+
+        /* --- MENÚ DE NAVEGACIÓN --- */
+        nav { 
+            display: flex; 
+            justify-content: center; 
+            gap: 25px; 
+            padding: 15px; 
+            background-color: #1a1a1a; 
+            position: sticky;
+            top: 0; 
+            z-index: 100;
+            flex-wrap: wrap; 
+        }
+        nav a { 
+            color: #aaaaaa; 
+            text-decoration: none; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            font-size: 0.95em;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        nav a:hover { 
+            color: #cc141c; 
+        }
+        
+        /* --- HERO (Banner Principal) --- */
+        .hero { 
+            text-align: center; 
+            padding: 150px 20px; 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('19.jpeg') no-repeat center 75%/cover; 
+        }
+        .hero h2 { 
+            font-size: 4.5em; 
+            margin-bottom: 20px; 
+            color: #ffffff;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+        .hero p { 
+            font-size: 1.5em; 
+            color: #ffffff;
+            max-width: 900px;
+            margin: 0 auto;
+            font-weight: 500;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+        }
+        
+        /* --- CONTENEDORES GENERALES --- */
+        .container { 
+            padding: 80px 20px; 
+            max-width: 1200px; 
+            margin: auto; 
+        }
+        
+        .section-title { 
+            text-align: center; 
+            color: #cc141c; 
+            text-transform: uppercase; 
+            font-size: 2em;
+            margin-bottom: 40px; 
+            letter-spacing: 2px;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+        }
+
+        /* --- BLOQUES DE INFORMACIÓN --- */
+        .bloque-info {
+            display: flex;
+            flex-wrap: wrap;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .bloque-info .texto {
+            flex: 1;
+            padding: 50px;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .bloque-info h3 {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 3em;
+            margin-top: 0;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .bloque-info p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .bloque-info .imagen-placeholder {
+            flex: 1;
+            min-width: 300px;
+            background-color: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: bold;
+            font-size: 1.2em;
+            min-height: 400px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .imagen-bg {
+            flex: 1;
+            min-width: 300px;
+            min-height: 400px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .bg-rojo { background-color: #cc141c; color: #ffffff; }
+        .bg-rojo h3 { color: #000000; }
+
+        .bg-gris { background-color: #f2f2f2; color: #333333; }
+        .bg-gris h3 { color: #000000; }
+
+        .bg-negro { background-color: #000000; color: #ffffff; border: 1px solid #333; }
+        .bg-negro h3 { color: #cc141c; }
+
+        /* --- INTEGRANTES DEL EQUIPO --- */
+        .integrantes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .integrante-card {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .integrante-card:hover {
+            transform: translateY(-5px);
+            border-color: #cc141c;
+        }
+        .integrante-foto {
+            background-color: #2a2a2a;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+        }
+        .integrante-info {
+            padding: 25px;
+            text-align: center;
+        }
+        .integrante-info h4 {
+            margin: 0 0 5px 0;
+            color: #ffffff;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 1.6em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .integrante-rol {
+            color: #cc141c;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .integrante-desc {
+            color: #aaaaaa;
+            font-size: 0.9em;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* --- SECCIÓN PALMARÉS --- */
+        #palmares {
+            background-color: #1a1a1a; 
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+        }
+        .palmares-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .trofeo-card {
+            background-color: #121212;
+            border: 1px solid #333;
+            border-top: 4px solid #cc141c; 
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .trofeo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(204, 20, 28, 0.2); 
+        }
+        .trofeo-year {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 3.5em;
+            color: #cc141c;
+            margin: 0;
+            line-height: 1;
+        }
+        .trofeo-title {
+            font-weight: bold;
+            font-size: 1.4em;
+            margin: 15px 0 10px 0;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+        .trofeo-desc {
+            color: #aaaaaa;
+            font-size: 1em;
+            margin: 0;
+        }
+        
+        /* --- PATROCINADORES --- */
+        #patrocinadores { background-color: #0f0f0f; }
+
+        /* --- REDES SOCIALES --- */
+        .redes-sociales {
+            background-color: #000000;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .redes-sociales h2 {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 3em;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+        .redes-galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+        }
+        .redes-img-placeholder {
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: bold;
+        }
+        .redes-botones {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .btn-red {
+            background-color: #cc141c;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 15px 50px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .btn-red:hover {
+            background-color: #a30e15;
+        }
+
+        /* --- FORMULARIO DE CONTACTO --- */
+        .seccion-contacto {
+            background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('https://images.unsplash.com/photo-1568772585407-9361f9bfce31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            padding: 80px 20px;
+            color: #000000; 
+        }
+        .contacto-grid {
+            display: flex;
+            gap: 60px;
+            max-width: 1200px;
+            margin: auto;
+            flex-wrap: wrap;
+        }
+        .contacto-texto {
+            flex: 1;
+            min-width: 300px;
+        }
+        .contacto-texto h2 {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 4em;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .contacto-texto p {
+            font-size: 1.1em;
+            line-height: 1.5;
+            max-width: 400px;
+        }
+        .contacto-form {
+            flex: 1.5;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .form-fila {
+            display: flex;
+            gap: 20px;
+        }
+        .form-grupo {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-grupo label {
+            font-size: 0.85em;
+            color: #555;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .form-grupo span.titulo {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .input-estilo {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #000000;
+            border-radius: 20px; 
+            background-color: transparent;
+            font-size: 1em;
+            color: #000;
+        }
+        .input-estilo:focus {
+            outline: none;
+            border-width: 2px;
+        }
+        .btn-enviar {
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            align-self: flex-start; 
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .btn-enviar:hover {
+            background-color: #333333;
+        }
+
+        /* --- FOOTER --- */
+        .footer-fmt { 
+            background-color: #cc141c; 
+            padding: 60px 20px; 
+            color: #ffffff;
+        }
+        .footer-contenedor {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        .footer-izq h2 {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            color: #000000;
+            font-size: 3em;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .footer-izq p {
+            font-size: 1.2em;
+            margin: 5px 0 0 0;
+        }
+        .footer-der {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .footer-der-bloque h3 {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 1.5em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .footer-der-bloque p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* --- ADAPTACIÓN A PANTALLAS MÓVILES --- */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.8em; 
+            }
+            .hero p {
+                font-size: 1.1em;
+            }
+            .form-fila {
+                flex-direction: column; 
+                gap: 20px;
+            }
+            header {
+                grid-template-columns: 1fr; 
+                gap: 15px;
+                padding: 15px; 
+            }
+            .logo-florida, .logo-champion, .logo-fmt {
+                justify-self: center; 
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="LOGO FLORIDA PNG.png" alt="Logo Universidad Florida" class="logo-florida">
+        <img src="LOGO FMT NEGRO PNG.png" alt="Logo Florida Moto Team Race Engineering" class="logo-fmt">
+        <img src="FMT CHAMPION.png" alt="FMT World Champion" class="logo-champion"> 
+    </header>
+
+    <nav>
+        <a href="#equipo">El Proyecto</a>
+        <a href="#piloto">Piloto</a>
+        <a href="#integrantes">Equipo Téc.</a>
+        <a href="#palmares">Palmarés</a>
+        <a href="#patrocinadores">Patrocinadores</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+
+    <!-- BANNER PRINCIPAL -->
+    <section class="hero">
+        <h2>FLORIDA MOTO TEAM</h2>
+        <p>Equipo de competición de motociclismo universitario, encargado de la fabricación, desarrollo y producción de prototipos de competición a nivel de Moto 3</p>
+    </section>
+
+    <!-- SECCIÓN 1: EL PROYECTO -->
+    <div class="container" id="equipo">
+        <div class="bloque-info bg-rojo">
+            <div class="imagen-placeholder">
+                [ ESPACIO PARA FOTO: Equipo en boxes ]
+            </div>
+            <div class="texto">
+                <h3>QUIENES SOMOS</h3>
+                <p><strong>Florida Moto Team</strong> es un equipo de motociclismo universitario, formado íntegramente por estudiantes apasionados por la ingeniería, la innovación y el mundo del motor. Nacido en el entorno de <em>Florida Universitària</em>, nuestro objetivo es diseñar, desarrollar y construir prototipos de motocicletas de competición en la categoría Moto3, compitiendo en eventos internacionales como <strong>MotoStudent</strong>.</p>
+                <p>Impulsados por el talento joven, la ambición y el autoaprendizaje, combinamos conocimientos técnicos con creatividad y trabajo en equipo para superar cada desafío. Nuestra misión va más allá de las carreras: queremos ser un referente de visibilidad, sostenibilidad y proyección profesional para futuras generaciones de ingenieros y pilotos.</p>
+                <p>Con una trayectoria destacada y múltiples podios a nivel internacional, seguimos creciendo con la mirada puesta en el futuro del motociclismo sostenible y la excelencia en la competición.</p>
+            </div>
+        </div>
+
+        <div class="bloque-info bg-gris">
+            <div class="texto">
+                <h3>PETROL E-FUEL</h3>
+                <p>En 2024, <strong>Florida Moto Team</strong> fue seleccionado como equipo de competición universitario invitado para probar el nuevo biocombustible <strong>eFuel</strong>, desarrollado por <strong>Repsol</strong> en colaboración con <strong>Dorna Sport</strong>, en el Gran Premio de Aragón de MotoGP.</p>
+                <p>Esta invitación nos posiciona como referentes en sostenibilidad dentro del mundo del motociclismo universitario. Tuvimos el honor de compartir espacio con figuras clave del sector como <strong>Carmelo Ezpeleta</strong> (CEO de Dorna), <strong>Francesco Guidotti</strong> (Team Manager de KTM), y representantes de <strong>Motorland</strong>. Ser parte de este evento nos permitió contribuir directamente al futuro del motociclismo, participando en la validación de un combustible 100% renovable que será implementado en el Campeonato del Mundo de MotoGP en 2027.</p>
+                <p>Este hito representa no solo un logro técnico para nuestro equipo, sino también un firme compromiso con el desarrollo sostenible y la movilidad del mañana.</p>
+            </div>
+            <div class="imagen-placeholder">
+                [ ESPACIO PARA FOTOS: Presentación MotoGP y e-Fuel ]
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 2: PILOTO OFICIAL -->
+    <div class="container" id="piloto">
+        <h2 class="section-title">Piloto Oficial</h2>
+        <div class="bloque-info bg-negro">
+            <div class="texto">
+                <h3>NOMBRE DEL PILOTO</h3>
+                <p style="color: #aaaaaa; text-transform: uppercase; letter-spacing: 2px;">
+                    Dorsal: <strong style="color: #ffffff; font-size: 1.2em;">#8</strong> &nbsp;|&nbsp; Categoría: <strong style="color: #ffffff; font-size: 1.2em;">Moto3</strong>
+                </p>
+                <p>Aquí puedes incluir una breve biografía del piloto. Detalles sobre sus inicios en el motociclismo, su estilo de pilotaje en pista y su conexión con el equipo Florida Moto Team.</p>
+                <p>Destaca sus aspiraciones para esta temporada a los mandos del nuevo prototipo desarrollado por los ingenieros de la universidad.</p>
+            </div>
+            <div class="imagen-bg" style="background-image: url('DSC_0162.jpg'); background-position: center top;"></div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 3: INTEGRANTES DEL EQUIPO -->
+    <div class="container" id="integrantes">
+        <h2 class="section-title">El Equipo Técnico</h2>
+        <div class="integrantes-grid">
+            <div class="integrante-card">
+                <div class="integrante-foto">[ FOTO ]</div>
+                <div class="integrante-info">
+                    <h4>Nombre Apellido</h4>
+                    <span class="integrante-rol">Team Leader</span>
+                    <p class="integrante-desc">Coordinación general del proyecto, estrategia en box y enlace institucional.</p>
+                </div>
+            </div>
+            <div class="integrante-card">
+                <div class="integrante-foto">[ FOTO ]</div>
+                <div class="integrante-info">
+                    <h4>Nombre Apellido</h4>
+                    <span class="integrante-rol">Jefe de Chasis</span>
+                    <p class="integrante-desc">Diseño, cálculo estructural y soldadura del bastidor del prototipo Moto3.</p>
+                </div>
+            </div>
+            <div class="integrante-card">
+                <div class="integrante-foto">[ FOTO ]</div>
+                <div class="integrante-info">
+                    <h4>Nombre Apellido</h4>
+                    <span class="integrante-rol">Electrónica y Telemetría</span>
+                    <p class="integrante-desc">Gestión de sensores, cableado y análisis de datos en pista para optimizar el set-up.</p>
+                </div>
+            </div>
+            <div class="integrante-card">
+                <div class="integrante-foto">[ FOTO ]</div>
+                <div class="integrante-info">
+                    <h4>Nombre Apellido</h4>
+                    <span class="integrante-rol">Aerodinámica</span>
+                    <p class="integrante-desc">Desarrollo del carenado mediante simulaciones CFD y fabricación en fibra.</p>
+                </div>
+            </div>
+            <div class="integrante-card">
+                <div class="integrante-foto">[ FOTO ]</div>
+                <div class="integrante-info">
+                    <h4>Nombre Apellido</h4>
+                    <span class="integrante-rol">Mecánico de Pista</span>
+                    <p class="integrante-desc">Ensamblaje, mantenimiento del motor y puesta a punto rápida durante las sesiones.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 4: PALMARÉS -->
+    <div id="palmares">
+        <div class="container">
+            <h2 class="section-title">Palmarés</h2>
+            <div class="palmares-grid">
+                <div class="trofeo-card">
+                    <p class="trofeo-year">2023</p>
+                    <p class="trofeo-title">MotoStudent International</p>
+                    <p class="trofeo-desc">Top 10 en la categoría Petrol y premio a la mejor innovación técnica.</p>
+                </div>
+                <div class="trofeo-card">
+                    <p class="trofeo-year">2021</p>
+                    <p class="trofeo-title">Campeonato Universitario</p>
+                    <p class="trofeo-desc">3º Puesto en la clasificación general de constructores y diseño.</p>
+                </div>
+                <div class="trofeo-card">
+                    <p class="trofeo-year">2019</p>
+                    <p class="trofeo-title">Mejor Diseño Aerodinámico</p>
+                    <p class="trofeo-desc">Galardón al diseño de carenado más eficiente del certamen europeo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 5: PATROCINADORES -->
+    <div class="container" id="patrocinadores">
+        <h2 class="section-title">Patrocinadores</h2>
+        <!-- Aquí prepararemos la cuadrícula para los logos -->
+    </div>
+
+    <!-- REDES SOCIALES -->
+    <section class="redes-sociales">
+        <h2>Síguenos en las redes sociales</h2>
+        <div class="redes-galeria">
+            <div class="redes-img-placeholder">[ FOTO CURVA 1 ]</div>
+            <div class="redes-img-placeholder">[ FOTO CURVA 2 ]</div>
+            <div class="redes-img-placeholder">[ FOTO CABALLITO ]</div>
+            <div class="redes-img-placeholder">[ FOTO RECTA ]</div>
+        </div>
+        <div class="redes-botones">
+            <a href="#" class="btn-red">INSTAGRAM</a>
+            <a href="#" class="btn-red">TIK TOK</a>
+            <a href="#" class="btn-red">FACEBOOK</a>
+        </div>
+    </section>
+
+    <!-- FORMULARIO DE CONTACTO -->
+    <section id="contacto" class="seccion-contacto">
+        <div class="contacto-grid">
+            <div class="contacto-texto">
+                <h2>CONTÁCTANOS</h2>
+                <p>¿Quieres que trabajemos juntos? Ingresa tus datos y nos pondremos en contacto contigo en breve. Esperamos tener noticias tuyas pronto.</p>
+            </div>
+            
+            <form class="contacto-form" action="#" method="POST">
+                <span class="titulo">Nombre</span>
+                <div class="form-fila">
+                    <div class="form-grupo">
+                        <label for="nombre">Nombre (obligatorio)</label>
+                        <input type="text" id="nombre" class="input-estilo" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="apellido">Apellido (obligatorio)</label>
+                        <input type="text" id="apellido" class="input-estilo" required>
+                    </div>
+                </div>
+                
+                <div class="form-grupo">
+                    <label for="correo">Correo electrónico (obligatorio)</label>
+                    <input type="email" id="correo" class="input-estilo" required>
+                </div>
+                
+                <div class="form-grupo">
+                    <label for="mensaje">Mensaje (obligatorio)</label>
+                    <textarea id="mensaje" rows="5" class="input-estilo" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-enviar">ENVIAR</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-fmt">
+        <div class="footer-contenedor">
+            <div class="footer-izq">
+                <h2>FLORIDA MOTO TEAM</h2>
+                <p>Proyecto deportivo Florida Universitària</p>
+            </div>
+            
+            <div class="footer-der">
+                <div class="footer-der-bloque">
+                    <h3>UBICACIÓN</h3>
+                    <p>C/ Rei en Jaume I, n° 2, 46470<br>CATARROJA (Valencia)</p>
+                </div>
+                <div class="footer-der-bloque">
+                    <h3>CONTACTO</h3>
+                    <p>floridamototeam.fmt@gmail.com<br>+34 696 53 19 11</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
