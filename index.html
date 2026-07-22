@@ -82,7 +82,7 @@
         .hero { 
             text-align: center; 
             padding: 150px 20px; 
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('19.jpeg') no-repeat center 75%/cover; 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('imagenes/19.jpeg') no-repeat center 75%/cover; 
         }
         .hero h2 { 
             font-size: 4.5em; 
@@ -164,7 +164,16 @@
             font-size: 1.2em;
             min-height: 400px;
             text-align: center;
-            padding: 20px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .bloque-info .imagen-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: inherit;
         }
 
         .imagen-bg {
@@ -340,7 +349,7 @@
 
         /* --- FORMULARIO DE CONTACTO --- */
         .seccion-contacto {
-            background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('https://images.unsplash.com/photo-1568772585407-9361f9bfce31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('imagenes/DSC_0640.JPG') no-repeat center center/cover;
             padding: 80px 20px;
             color: #000000; 
         }
@@ -495,9 +504,9 @@
 <body>
 
     <header>
-        <img src="LOGO FLORIDA PNG.png" alt="Logo Universidad Florida" class="logo-florida">
-        <img src="LOGO FMT NEGRO PNG.png" alt="Logo Florida Moto Team Race Engineering" class="logo-fmt">
-        <img src="FMT CHAMPION.png" alt="FMT World Champion" class="logo-champion"> 
+        <img src="imagenes/LOGO FLORIDA PNG.png" alt="Logo Universidad Florida" class="logo-florida">
+        <img src="imagenes/LOGO FMT NEGRO PNG.png" alt="Logo Florida Moto Team Race Engineering" class="logo-fmt">
+        <img src="imagenes/FMT CHAMPION.png" alt="FMT World Champion" class="logo-champion"> 
     </header>
 
     <nav>
@@ -519,7 +528,7 @@
     <div class="container" id="equipo">
         <div class="bloque-info bg-rojo">
             <div class="imagen-placeholder">
-                [ ESPACIO PARA FOTO: Equipo en boxes ]
+                <img src="imagenes/DSC_0415.JPG" alt="Equipo en boxes">
             </div>
             <div class="texto">
                 <h3>QUIENES SOMOS</h3>
@@ -554,7 +563,7 @@
                 <p>Aquí puedes incluir una breve biografía del piloto. Detalles sobre sus inicios en el motociclismo, su estilo de pilotaje en pista y su conexión con el equipo Florida Moto Team.</p>
                 <p>Destaca sus aspiraciones para esta temporada a los mandos del nuevo prototipo desarrollado por los ingenieros de la universidad.</p>
             </div>
-            <div class="imagen-bg" style="background-image: url('DSC_0162.jpg'); background-position: center top;"></div>
+            <div class="imagen-bg" style="background-image: url('imagenes/DSC_0162.jpg'); background-position: center top;"></div>
         </div>
     </div>
 
